@@ -6,17 +6,21 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var configAuth = require('../config/auth');
 
 function extractProfile (profile) {
-  var imageUrl = '';
+  var imageUrl = '',
+      email = '';
+
   if (profile.photos && profile.photos.length) {
     imageUrl = profile.photos[0].value;
-  }
-  profileS =  {
+  };
+  if (profile.emails && profile.emails.length) {
+    email = profile.emails[0].value;
+  };
+  return {
     id: profile.id,
     displayName: profile.displayName,
+    email: email,
     image: imageUrl
   };
-  console.log(profileS);
-  return profileS;
 }
 
 passport.use(new GoogleStrategy({
@@ -37,7 +41,7 @@ passport.deserializeUser(function(user, done) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.user);
+  console.log("Session: ", req.user);
   res.render('index', { title: 'no fallo', user: req.user });
 });
 
@@ -45,7 +49,7 @@ router.get('/mal', function(req, res, next) {
   res.render('index', { title: 'fallo' });
 });
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/mal' }), function(req, res) {
     passport.authenticate('google');
