@@ -9,6 +9,17 @@ var session = require('express-session');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+
+var urlMongo = 'mongodb://localhost:27017/test';
+MongoClient.connect(urlMongo, function(err, db) {
+  assert.equal(null, err);
+  console.log(db);
+  console.log("Connected correctly to server.");
+  db.close();
+});
+
 var app = express();
 
 // view engine setup
