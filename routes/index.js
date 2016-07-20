@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
-
 var configAuth = require('../config/auth');
 
 passport.use(new GoogleStrategy({
@@ -16,7 +15,6 @@ function(token, refreshToken, profile, done) {
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
-
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
@@ -29,7 +27,7 @@ router.get('/', function(req, res, next) {
 /* GET app main page */
 router.get('/app', function(req, res, next) {
   console.log("Session: ", req.user);
-  res.render('index', { title: 'Inicio' });
+  res.render('app');
 });
 /* GET Login */
 router.get('/login', function(req, res, next) {

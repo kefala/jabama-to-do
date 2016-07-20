@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  button(class = 'login-google') Google
+  a(class = 'login-google', href='/auth/google') Google
   form
     input(id = 'email', class = 'email', name = 'email', placeholder = 'Ingrese email')
     input(id = 'pass', class = 'pass', name = 'pass', placeholder = 'Ingrese contraseña')
