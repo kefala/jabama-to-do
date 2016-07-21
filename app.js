@@ -8,14 +8,14 @@ var passport = require('passport');
 var session = require('express-session');
 var routes = require('./routes/index');
 
-var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 var assert = require('assert');
 
-var urlMongo = 'mongodb://localhost:27017/to-do';
-MongoClient.connect(urlMongo, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server, db to-do.");
-  db.close();
+mongoose.connect('mongodb://localhost:27017/to-do');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("we're connected!");
 });
 
 var app = express();
